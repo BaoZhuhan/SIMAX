@@ -135,6 +135,6 @@ This project is licensed under the Apache License 2.0.
 
 ## Acknowledgments
 
-- [MOSS-TTSD](https://github.com/MOSS-TTSD) for the text-to-speech model
+- [MOSS-TTSD](https://github.com/OpenMOSS/MOSS-TTSD) for the text-to-speech model
 - [Mozilla Common Voice](https://commonvoice.mozilla.org/) for voice reference data
 - [Freesound](https://freesound.org/) for environmental audio assets
