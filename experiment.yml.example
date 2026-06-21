@@ -1,0 +1,101 @@
+role_generation:
+  # Required: Medical stage and scenario
+  # These are usually populated by the experiment generation script
+  medical_stage: "Initial diagnosis"
+  medical_scenario: "Pregnant woman with vaginal bleeding"
+  
+  # Gender constraints (optional but recommended to match audio)
+  # doctor_gender: "male"
+  # patient_gender: "female"
+  
+  # Age and name constraints (optional)
+  # doctor_age: "45"
+  # patient_age: "adult"
+  # doctor_name: "Dr. John Smith"
+  # patient_name: "Mary Johnson"
+
+role_guidance:
+  doctor: ""
+  patient: ""
+  # Guidance for the medical case generation
+  medical_case: "The case should belong to the Department of Obstetrics. Ensure scenarios are medically plausible and age-appropriate (e.g., no occupational injuries for children, no pregnancy for elderly/children)."
+
+audio_reference:
+  # Paths to audio files for voice cloning
+  doctor_audio: common_voice_en_17488326.mp3
+  patient_audio: common_voice_en_17488328.mp3
+
+codebook_files:
+  - wiser_codes.json
+  - global_codes.json
+  - bias_codes.json
+  - intervention_codes.json
+
+text_generation:
+  max_retries: 3
+  temperature: 0.7
+  max_tokens: 4096
+  dialogue_generation:
+    max_turns: 50
+    min_turns: 30
+
+tts_generation:
+  use_cloning: true
+  input_format: separate_speakers
+  use_normalize: false
+  silence_duration: 0
+
+wet_generation:
+  enabled: true
+  assets_dir: ./resources/audio_assets
+  output_filename: audio_wet.wav
+  timestamps_filename: dialogue_with_timestamps.json
+  assets:
+    background: 201638__bassboybg__hospital-waiting-room.wav
+    door: 126044__mhtaylor67__office-door-closing.wav
+    keyboard: 331428__m4taiori__mechanical-keyboard-typing.mp3
+    mouse: 545960__metrowned__mouse_click.wav
+
+# Target scores for the doctor behavior (Scale 1-5)
+global_scores:
+  flow: 3
+  concerns: 3
+  attentive: 3
+  warmth: 3
+  respect: 3
+
+# Target scores for patient behavior (Scale 1-5 or Count)
+patient_scores:
+  guarded_open: 3
+  trust_patient: [1, 3]
+
+# Target counts for WISER communication skills
+wiser_counts:
+  empathic_opportunity: [1, 2]
+  empathic_response: [2, 4]
+  empathic_statement: [1, 2]
+  im_sorry: [1, 2]
+  open_ended_question: [3, 5]
+  reflective_statement: [2, 3]
+  elicit_questions: [1, 2]
+  weight: [0, 1]
+  social_determinants_of_health: [0, 1]
+  asking_questions: [1, 2]
+  assertive_responses: [1, 2]
+
+# Target scores for bias indicators
+bias_scores:
+  rushed_unrushed: 3
+
+# Target counts for bias/rapport behaviors
+bias_counts:
+  establishing_rapport: [1, 2]
+  tailoring: [2, 3]
+
+# Target counts for 5A's intervention
+intervention_counts:
+  asked: [3, 4]
+  advised: [2, 3]
+  assessed: [1, 2]
+  assisted: [1, 2]
+  arranged: [0, 1]

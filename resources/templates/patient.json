@@ -1,0 +1,19 @@
+{
+  "name": "",
+  "gender": "",
+  "age": "",
+  "personality": {
+    "trust_tendency": "",
+    "emotional_expression": "",
+    "emotional_state": "",
+    "questioning_initiative": false,
+    "response_to_advice": "",
+    "assertiveness": ""
+  },
+  "behavior": {
+    "empathy_needs": "",
+    "background_disclosure": "",
+    "goal_setting_initiative": false,
+    "response_to_doctor_behavior": ""
+  }
+}

@@ -1,0 +1,40 @@
+project:
+  name: SIMAX
+  version: 2.0.0
+  description: AI-Driven Framework for Generating High-Fidelity Clinical Dialogues
+
+paths:
+  resources_dir: ./resources
+
+  common_voice:
+    # User should download Common Voice dataset and set paths here
+    # https://commonvoice.mozilla.org/en/datasets
+    root: ./data/common_voice/en
+    clips: ./data/common_voice/en/clips
+    tsv: ./data/common_voice/en/validated.tsv
+
+  # Path to GPT model (download separately)
+  # e.g., huggingface-cli download openai/gpt-oss-20b
+  gpt_model_path: ./models/gpt-oss-20b
+
+  moss_ttsd:
+    # Path to MOSS-TTSD model weights (download separately)
+    # Install: pip install moss-ttsd
+    model_path: ./models/moss-ttsd-v0.7
+    tokenizer_config: ./models/moss-ttsd-v0.7/XY_Tokenizer/config/MOSS_TTSD_tokenizer.yaml
+    tokenizer_checkpoint: ./models/moss-ttsd-v0.7/XY_Tokenizer/weights/MOSS_TTSD_tokenizer
+
+  results_dir: ./results
+
+models:
+  gpt:
+    model_name: openai_gpt-oss-20b
+    base_url: http://localhost:8000/v1
+    tensor_parallel_size: 1
+    gpu_memory_utilization: 0.9
+    max_model_len: 8192
+    use_guided_json: true
+
+  moss_ttsd:
+    dtype: bf16
+    attn_implementation: sdpa

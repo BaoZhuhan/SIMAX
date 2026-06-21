@@ -1,0 +1,72 @@
+#!/bin/bash
+#SBATCH --job-name=simax_run
+#SBATCH --output=logs/simax_%j.out
+#SBATCH --error=logs/simax_%j.err
+#SBATCH --partition=
+#SBATCH --gres=
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=32G
+#SBATCH --time=2:00:00
+
+set -e
+
+# Unload system Anaconda module to prevent environment contamination
+# This is crucial to ensure the correct python interpreter is used
+module unload Anaconda3
+
+# Activate Conda environment
+source /hpc/group/honglab/zb78/env/miniconda3/etc/profile.d/conda.sh
+conda activate simax
+
+export HF_HOME=./resources/models
+
+# Set project root to current directory
+PROJECT_ROOT=$(pwd)
+cd "$PROJECT_ROOT"
+
+# Arguments: ExpID, Config, Experiment File
+EXP_ID=${1:-"simax-run-$(date +%Y%m%d-%H%M%S)"}
+CONFIG=${2:-"config.yml"}
+EXPERIMENT=${3:-"experiment.yml"}
+
+mkdir -p logs
+mkdir -p results
+
+echo "============================================"
+echo "SIMAX Experiment Run"
+echo "============================================"
+echo "Exp ID: $EXP_ID"
+echo "Config: $CONFIG"
+echo "Experiment: $EXPERIMENT"
+echo "Slurm Job ID: $SLURM_JOB_ID"
+echo "============================================"
+
+# Step 1: Generate role documents
+echo "[Step 1/3] Generating role documents..."
+python main.py --config "$CONFIG" --experiment "$EXPERIMENT" --exp_id "$EXP_ID" --step role
+
+# Step 2: Generate dialogue
+echo "[Step 2/3] Generating dialogue..."
+python main.py --config "$CONFIG" --experiment "$EXPERIMENT" --exp_id "$EXP_ID" --step dialogue
+
+# Stop vLLM service to free GPU memory for audio synthesis
+echo "Stopping vLLM service to free GPU memory..."
+python -m src.services stop_vllm
+
+# Step 3: Synthesize audio
+echo "[Step 3/4] Synthesizing audio..."
+python main.py --config "$CONFIG" --experiment "$EXPERIMENT" --exp_id "$EXP_ID" --step audio
+
+# Step 4: Apply convolution reverb
+echo "[Step 4/4] Applying convolution reverb..."
+python main.py --config "$CONFIG" --experiment "$EXPERIMENT" --exp_id "$EXP_ID" --step reverb
+
+# Copy configuration files for reproducibility
+cp "$CONFIG" "results/$EXP_ID/"
+cp "$EXPERIMENT" "results/$EXP_ID/"
+
+echo ""
+echo "============================================"
+echo "Run completed!"
+echo "Results saved to: results/$EXP_ID/"
+ls -la "results/$EXP_ID/"

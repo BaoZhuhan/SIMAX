@@ -1,0 +1,24 @@
+{
+  "name": "",
+  "gender": "",
+  "age": "",
+  "title": "",
+  "personality": {
+    "empathy": "",
+    "communication_flow": "",
+    "emotional_attention": "",
+    "attitude": "",
+    "interrupts_patient": false,
+    "bias_or_stereotype": "",
+    "tailoring_ability": "",
+    "rapport_building": "",
+    "concern_handling": ""
+  },
+  "behavior": {
+    "questioning_style": "",
+    "gives_advice": false,
+    "assessment_initiative": "",
+    "goal_setting_assistance": false,
+    "followup_arrangement": false
+  }
+}
