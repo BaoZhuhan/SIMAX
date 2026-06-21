@@ -42,7 +42,7 @@ pip install vllm
 
 Download the required models:
 - **GPT Model**: [openai/gpt-oss-20b](https://huggingface.co/openai/gpt-oss-20b)
-- **MOSS-TTSD**: [MOSS-TTSD v0.7](https://huggingface.co/MOSS-TTSD/moss-ttsd-v0.7)
+- **MOSS-TTSD**: [MOSS-TTSD v0.7](https://huggingface.co/OpenMOSS-Team/MOSS-TTSD-v0.7)
 
 ### 2. Configure Paths
 
